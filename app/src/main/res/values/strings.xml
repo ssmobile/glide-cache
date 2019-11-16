@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GlideCaching</string>
+    <string name="image_downloaded_from_api">image downloaded from API</string>
 </resources>

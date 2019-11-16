@@ -9,14 +9,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.media.Image;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.glidecaching.R;
 import com.example.glidecaching.databinding.ActivityMainBinding;
+import com.example.glidecaching.model.Response;
+import com.example.glidecaching.model.rxjava.ImageObserver;
 import com.example.glidecaching.view.adapters.ImageAdapter;
 import com.example.glidecaching.viewmodel.MainViewModel;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.List;
 
+public class MainActivity extends AppCompatActivity implements ImageObserver.Callback {
+
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,16 +30,23 @@ public class MainActivity extends AppCompatActivity {
 
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        binding.setViewModel(new MainViewModel());
-
-
-        initRecyclerView();
+        binding.setViewModel(new MainViewModel(this));
     }
 
-    private void initRecyclerView() {
+    private void initRecyclerView(List<Response> responses) {
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        recyclerView.setAdapter(new ImageAdapter());
+        ImageAdapter adapter = new ImageAdapter();
+        adapter.setData(responses);
+        recyclerView.setAdapter(adapter);
+
+    }
+
+    @Override
+    public void onResponse(List<Response> response) {
+        initRecyclerView(response);
+
+        Log.d(TAG, "Response: " + response.toString());
 
     }
 }

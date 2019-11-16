@@ -1,7 +1,9 @@
 package com.example.glidecaching.viewmodel;
 
+import android.telecom.Call;
 import android.util.Log;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.glidecaching.model.Response;
@@ -11,30 +13,21 @@ import com.example.glidecaching.model.rxjava.ImageObserver;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainViewModel extends ViewModel implements ImageObserver.Callback {
+public class MainViewModel extends ViewModel {
 
     private static final String TAG = "TAG_MainViewModel";
-    public List<String> responses = new ArrayList<>();
+    public MutableLiveData<List<Response>> responses = new MutableLiveData<>();
+    private ImageObserver.Callback callback;
 
-    public MainViewModel() {
-
+    public MainViewModel(ImageObserver.Callback callback) {
+        this.callback = callback;
         getImageResponse();
     }
 
     private void getImageResponse() {
         Log.d(TAG, "getImageResponse()");
-        RetrofitHelper.getImageResponse(2,100, this);
-    }
-
-    public void setData() {
-        Log.d(TAG, "setData()");
-
+        RetrofitHelper.getImageResponse(2,100, callback);
     }
 
 
-    @Override
-    public void onResponse(List<Response> response) {
-        Log.d(TAG, "Response: " + response.toString());
-
-    }
 }
