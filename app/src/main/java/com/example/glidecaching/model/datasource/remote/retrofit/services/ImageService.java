@@ -1,9 +1,8 @@
 package com.example.glidecaching.model.datasource.remote.retrofit.services;
 
-import android.database.Observable;
-
 import com.example.glidecaching.model.Response;
 
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
@@ -12,8 +11,8 @@ import static com.example.glidecaching.model.datasource.remote.UrlConstants.PAGE
 
 public interface ImageService {
 
-    @GET()
-    Observable<Response> getImages(
+    @GET("list")
+    Observable<Object> getImages(
         @Query(PAGE_COUNT) int pageCount,
         @Query(LIMIT) int limit
     );
