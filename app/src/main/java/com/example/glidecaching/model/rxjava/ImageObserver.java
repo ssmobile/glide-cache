@@ -1,19 +1,19 @@
 package com.example.glidecaching.model.rxjava;
 
-import android.telecom.Call;
 import android.util.Log;
 
 import com.example.glidecaching.model.Response;
 
-import io.reactivex.Observable;
+import java.util.List;
+
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 
-public class ImageObserver implements Observer<Object> {
+public class ImageObserver implements Observer<List<Response>> {
 
     private Callback callback;
-    private Object response;
+    private List<Response> responses;
 
     private static final String TAG = "TAG_ImageObserver";
 
@@ -27,9 +27,9 @@ public class ImageObserver implements Observer<Object> {
     }
 
     @Override
-    public void onNext(Object response) {
+    public void onNext(List<Response> response) {
         Log.d(TAG, "onNext: ");
-        this.response = response;
+        this.responses = response;
 
     }
 
@@ -42,11 +42,11 @@ public class ImageObserver implements Observer<Object> {
     @Override
     public void onComplete() {
         Log.d(TAG, "onComplete: ");
-        callback.onResponse(response);
+        callback.onResponse(responses);
 
     }
 
     public interface Callback {
-        void onResponse(Object response);
+        void onResponse(List<Response> response);
     }
 }
